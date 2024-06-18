@@ -40,5 +40,21 @@ describe('Criar dispositivos', () => {
          })
 
     })
+
+    it('Criar um dispositivo específico sem enviar o body no payload', () => {
+        cy.request({
+            method:'POST',
+            url:`https://api.restful-api.dev/objects`,
+            failOnStatusCode: false,
+        }).as('postDeviceResult')
+
+        //validacoes
+         cy.get('@postDeviceResult').then((response) => {
+            expect(response.status).equal(400)
+            expect(response.body.error).equal("400 Bad Request. If you are trying to create or update the data, potential issue is that you are sending incorrect body json or it is missing at all.")
+         })
+
+    })
+
     
 })

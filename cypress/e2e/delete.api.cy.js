@@ -38,5 +38,35 @@ describe('Deletar dispositivos', () => {
          })
 
     })
-    
+
+    it('Deletar um dispositivo que não existe', () => {
+        const id_inexistente = '123'
+        cy.request({
+                method:'DELETE',
+                url:`https://api.restful-api.dev/objects/${id_inexistente}`,
+                failOnStatusCode: false
+            }).as('deleteDeviceResult') 
+
+        cy.get('@deleteDeviceResult').then((response_delete) => {    
+            expect(response_delete.status).equal(404)
+            expect(response_delete.body.error).equal(`Object with id = ${id_inexistente} doesn't exist.`)        
+            })
+
+    })
+
+
+    it('Deletar um dispositivo reservado', () => {
+        const id_reservado = "7"
+        cy.request({
+                method:'DELETE',
+                url:`https://api.restful-api.dev/objects/${id_reservado}`,
+                failOnStatusCode: false
+            }).as('deleteDeviceResult') 
+
+        cy.get('@deleteDeviceResult').then((response_delete) => {    
+            expect(response_delete.status).equal(405)
+            expect(response_delete.body.error).equal(`${id_reservado} is a reserved id and the data object of it cannot be deleted. You can create your own new object via POST request and try to send a DELETE request with new generated object id.`)        
+            })
+
+    })
 })
