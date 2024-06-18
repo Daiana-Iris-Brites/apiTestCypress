@@ -8,7 +8,7 @@ describe('Buscar dispositivos', () => {
   
         cy.request({
             method:'GET',
-    url:`https://api.restful-api.dev/objects/${device_id}`,
+            url:`https://api.restful-api.dev/objects/${device_id}`,
             failOnStatusCode: false
         }).as('getDeviceResult')
 
