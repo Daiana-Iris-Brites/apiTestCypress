@@ -28,16 +28,10 @@ describe('Alterar os dados de um dispositivos', () => {
             }
          }
 
-        cy.request({
-            method:'POST',
-            url:`/objects`,
-            failOnStatusCode: false,
-            body:body
-        }).as('postDeviceResult')
-
-         cy.get('@postDeviceResult').then((response) => {
-            expect(response.status).equal(200)
-            expect(response.body.name).equal("Tela da Apple")
+        cy.cadastrarDevice(body)
+            .then((response) => {
+                expect(response.status).equal(200)
+                expect(response.body.name).equal("Tela da Apple")
 
         cy.request({
                 method:'PUT',

@@ -16,15 +16,8 @@ describe('Criar dispositivos', () => {
                "owner": "Daiana Brites"
             }
          }
-        cy.request({
-            method:'POST',
-            url:`/objects`,
-            failOnStatusCode: false,
-            body:body
-        }).as('postDeviceResult')
-
-        //validacoes
-         cy.get('@postDeviceResult').then((response) => {
+        cy.cadastrarDevice(body)
+         .then((response) => {
             expect(response.status).equal(200)
             expect(response.body).not.empty
             expect(response.body.createdAt).not.empty
@@ -42,16 +35,10 @@ describe('Criar dispositivos', () => {
     })
 
     it('Criar um dispositivo específico sem enviar o body no payload', () => {
-        cy.request({
-            method:'POST',
-            url:`/objects`,
-            failOnStatusCode: false,
-        }).as('postDeviceResult')
-
-        //validacoes
-         cy.get('@postDeviceResult').then((response) => {
-            expect(response.status).equal(400)
-            expect(response.body.error).equal("400 Bad Request. If you are trying to create or update the data, potential issue is that you are sending incorrect body json or it is missing at all.")
+        cy.cadastrarDevice('')
+            .then((response) => {
+                expect(response.status).equal(400)
+                expect(response.body.error).equal("400 Bad Request. If you are trying to create or update the data, potential issue is that you are sending incorrect body json or it is missing at all.")
          })
 
     })

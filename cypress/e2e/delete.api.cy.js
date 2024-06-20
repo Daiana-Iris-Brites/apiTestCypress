@@ -15,15 +15,9 @@ describe('Deletar dispositivos', () => {
                "owner": "Daiana Brites"
             }
          }
-        cy.request({
-            method:'POST',
-            url:`/objects`,
-            failOnStatusCode: false,
-            body:body
-        }).as('postDeviceResult')
-
-         cy.get('@postDeviceResult').then((response) => {
-            expect(response.status).equal(200)
+         cy.cadastrarDevice(body)
+            .then((response) => {
+                expect(response.status).equal(200)
 
         cy.request({
                 method:'DELETE',

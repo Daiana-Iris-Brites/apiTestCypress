@@ -6,14 +6,7 @@ describe('Buscar dispositivos', () => {
   
         const device_id = '7'
   
-        cy.request({
-            method:'GET',
-            url:`/objects/${device_id}`,
-            failOnStatusCode: false
-        }).as('getDeviceResult')
-
-//validacoes
-        cy.get('@getDeviceResult')
+        cy.buscarUmDispositivoEspecifico(device_id)
             .then((response) => {
                 expect(response.status).equal(200)
 
@@ -36,4 +29,14 @@ describe('Buscar dispositivos', () => {
             })
     })
     
+    it('Buscar um dispositivo específico inexistente', () => {
+  
+        const device_id = '999'
+  
+        cy.buscarUmDispositivoEspecifico(device_id)
+            .then((response) => {
+                expect(response.status).equal(404)
+                expect(response.body.error).equal(`Oject with id=${device_id} was not found.`) 
+            })
+    })
 })
