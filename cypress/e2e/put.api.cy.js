@@ -1,43 +1,23 @@
 ///  <reference types="cypress"/>
 
 describe('Alterar os dados de um dispositivos', () => {
+    const body_cadastro = require('../fixtures/cadastrar_device_sucesso.json')
+    const body_update = require('../fixtures/update_device.json')
 
     it('Alterar os dados de um dispositivos específico', () => {
       
         const dataAtual = new Date().toISOString().slice(0, 16)
       
-        const body = {
-            "name": "Tela da Apple",
-            "data": {
-               "year": 2024,
-               "price": 2588.00,
-               "CPU model": "Intel Core i9",
-               "Hard disk size": "1 TB",
-               "owner": "Daiana Brites"
-            }
-         }
-
-        const body_put = {
-            "name": "Apple MacBook Pro 16",
-            "data": {
-               "year": 2019,
-               "price": 2049.99,
-               "CPU model": "Intel Core i9",
-               "Hard disk size": "1 TB",
-               "owner": "Daiana Iris Brites"
-            }
-         }
-
-        cy.cadastrarDevice(body)
+        cy.cadastrarDevice(body_cadastro)
             .then((response) => {
                 expect(response.status).equal(200)
-                expect(response.body.name).equal("Tela da Apple")
+                expect(response.body.name).equal("Iphone Pro Max 16")
 
         cy.request({
                 method:'PUT',
                 url:`/objects/${response.body.id}`,
                 failOnStatusCode: false ,
-                body:body_put
+                body:body_update
             }).as('putDeviceResult') 
 
         cy.get('@putDeviceResult').then((response_put) => {    

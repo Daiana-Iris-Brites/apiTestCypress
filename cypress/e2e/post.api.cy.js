@@ -1,22 +1,12 @@
 ///  <reference types="cypress"/>
 
 describe('Criar dispositivos', () => {
+    const payload_cadastrar_device = require('../fixtures/cadastrar_device_sucesso.json')
 
     it('Criar um dispositivo específico', () => {
 
         const dataAtual = new Date().toISOString().slice(0, 16)
-
-        const body = {
-            "name": "Iphone Pro Max 16",
-            "data": {
-               "year": 2024,
-               "price": 1849.99,
-               "CPU model": "Intel Core i9",
-               "Hard disk size": "1 TB",
-               "owner": "Daiana Brites"
-            }
-         }
-        cy.cadastrarDevice(body)
+        cy.cadastrarDevice(payload_cadastrar_device)
          .then((response) => {
             expect(response.status).equal(200)
             expect(response.body).not.empty
